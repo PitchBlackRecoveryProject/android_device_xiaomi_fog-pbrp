@@ -1,1 +1,1 @@
-## Device config for TWRP Redmi 10C ( fog )
+## Device config for PBRP Redmi 10C ( fog, rain, wind )

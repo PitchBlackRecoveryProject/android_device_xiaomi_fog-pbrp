@@ -6,18 +6,21 @@
 
 DEVICE_PATH := device/xiaomi/fog
 
+# PBRP specific build flags
+PB_DISABLE_DEFAULT_DM_VERITY := true
+
 # Architecture
 TARGET_ARCH := arm64
 TARGET_ARCH_VARIANT := armv8-a
 TARGET_CPU_ABI := arm64-v8a
 TARGET_CPU_ABI2 :=
-TARGET_CPU_VARIANT := cortex-a73
+TARGET_CPU_VARIANT := generic
 
 TARGET_2ND_ARCH := arm
-TARGET_2ND_ARCH_VARIANT := armv8-a
+TARGET_2ND_ARCH_VARIANT := armv7-a-neon
 TARGET_2ND_CPU_ABI := armeabi-v7a
 TARGET_2ND_CPU_ABI2 := armeabi
-TARGET_2ND_CPU_VARIANT := cortex-a73
+TARGET_2ND_CPU_VARIANT := cortex-a9
 
 # Assertation
 TARGET_OTA_ASSERT_DEVICE := fog,rain,wind
@@ -47,7 +50,7 @@ BUILD_BROKEN_DUP_RULES := true
 BUILD_BROKEN_MISSING_REQUIRED_MODULES := true
 
 # Display
-TARGET_SCREEN_DENSITY := 320
+TARGET_SCREEN_DENSITY := 300
 
 # Kernel
 BOARD_MKBOOTIMG_ARGS += --header_version $(BOARD_BOOT_HEADER_VERSION)
@@ -131,9 +134,6 @@ TARGET_USERIMAGES_USE_EXT4 := true
 TARGET_USERIMAGES_USE_F2FS := true
 TARGET_USES_MKE2FS := true
 
-# Treble
-BOARD_VNDK_VERSION := current
-
 # TWRP specific build flags
 TW_THEME := portrait_hdpi
 RECOVERY_SDCARD_ON_DATA := true
@@ -147,16 +147,38 @@ TW_INCLUDE_REPACKTOOLS := true
 TW_INPUT_BLACKLIST := "hbtp_vm"
 TW_BRIGHTNESS_PATH := "/sys/class/backlight/panel0-backlight/brightness"
 TW_DEFAULT_BRIGHTNESS := 1200
-TW_MAX_BRIGHTNESS := 2047
-TW_Y_OFFSET := 71
-TW_H_OFFSET := -71
+TW_Y_OFFSET := 91
+TW_H_OFFSET := -91
 TWRP_INCLUDE_LOGCAT := true
 TARGET_USES_LOGD := true
 TARGET_USES_MKE2FS := true
 TW_NO_SCREEN_BLANK := true
 TW_EXCLUDE_APEX := true
-TW_FRAMERATE := 60
-TW_FORCE_KEYMASTER_VER := true
+TW_NO_FLASH_CURRENT_TWRP := true
+
+#Properties
+TW_OVERRIDE_SYSTEM_PROPS := \
+    "ro.build.fingerprint=ro.system.build.fingerprint;ro.build.version.incremental"
+
+
+# Vibrator
+TW_SUPPORT_INPUT_AIDL_HAPTICS := true
+
+RECOVERY_BINARY_SOURCE_FILES += \
+    $(TARGET_OUT_VENDOR_EXECUTABLES)/hw/vendor.qti.hardware.vibrator.service
+
+RECOVERY_LIBRARY_SOURCE_FILES += \
+    $(TARGET_OUT_SHARED_LIBRARIES)/libion.so \
+    $(TARGET_OUT_SYSTEM_EXT_SHARED_LIBRARIES)/vendor.display.config@1.0.so \
+    $(TARGET_OUT_SYSTEM_EXT_SHARED_LIBRARIES)/vendor.display.config@2.0.so \
+    $(TARGET_OUT_SYSTEM_EXT_SHARED_LIBRARIES)/libdisplayconfig.qti.so \
+    $(TARGET_OUT_VENDOR_SHARED_LIBRARIES)/vendor.qti.hardware.vibrator.impl.so \
+    $(TARGET_OUT_VENDOR_SHARED_LIBRARIES)/libqtivibratoreffect.so
+
+ENABLE_VIRTUAL_AB := true
+
+# Treble
+BOARD_VNDK_VERSION := current
 
 # UEFI
 TARGET_USES_UEFI := true
