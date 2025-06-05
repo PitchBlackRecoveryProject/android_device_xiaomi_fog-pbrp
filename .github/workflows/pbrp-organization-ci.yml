@@ -22,7 +22,7 @@ env:
   SFPassword: ${{ secrets.SFPassword }}
   SFUserName: ${{ secrets.SFUserName }}
   TARGET: "pbrp"
-  #EXTRA_CMD: "Extra Commands Here"
+  EXTRA_CMD: "rm -rf  vendor/utils; git clone https://github.com/DelightReza/vendor_utils vendor/utils"
 
 jobs:
   PBRP_CI:
