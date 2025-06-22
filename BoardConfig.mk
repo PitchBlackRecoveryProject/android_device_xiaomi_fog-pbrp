@@ -8,6 +8,7 @@ DEVICE_PATH := device/xiaomi/fog
 
 # PBRP specific build flags
 PB_DISABLE_DEFAULT_DM_VERITY := true
+PB_DISABLE_DEFAULT_TREBLE_COMP := true
 
 # Architecture
 TARGET_ARCH := arm64
